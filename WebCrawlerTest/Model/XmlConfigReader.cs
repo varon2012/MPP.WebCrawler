@@ -34,9 +34,9 @@ namespace WebCrawlerTest.Model
                 string value = doc.Element("root").Element("depth").Value;
                 Depth = Int32.Parse(value);
             }
-            catch (NullReferenceException e)
+            catch (FileFormatException e)
             {
-                throw new NullReferenceException($"Check the config file with path: {configPath}");
+                throw new FileFormatException($"Check the config file with path: {configPath}");
             }
             catch (FormatException e)
             {
@@ -56,7 +56,7 @@ namespace WebCrawlerTest.Model
             }
             catch
             {
-                throw new NullReferenceException($"Check the config file with path: {configPath}");
+                throw new FileFormatException($"Check the config file with path: {configPath}");
             }
 
             RootUrls = new string[nodes.Count()];
