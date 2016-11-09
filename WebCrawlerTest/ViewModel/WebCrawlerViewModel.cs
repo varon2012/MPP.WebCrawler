@@ -50,6 +50,7 @@ namespace WebCrawlerTest.ViewModel
                     }
                 });
 
+            webCrawlerModel.WebCrawler.Dispose();
         }
     }
 }

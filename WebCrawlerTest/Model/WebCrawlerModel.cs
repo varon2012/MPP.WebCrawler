@@ -9,7 +9,7 @@ namespace WebCrawlerTest.Model
     {
         private string configPath = "config.xml";
         private XmlConfigReader reader;
-
+        public WebCrawler.WebCrawler WebCrawler { get; set; }
 
         public void ReadConfigInformation()
         {
@@ -27,10 +27,9 @@ namespace WebCrawlerTest.Model
 
         public async Task<CrawlResult> StartWebCrawler()
         {
-            WebCrawler.WebCrawler webCrawler = new WebCrawler.WebCrawler();
-            webCrawler.Depth = reader.Depth;
-            return await webCrawler.PerformCrawlingAsync(reader.RootUrls);
-
+            WebCrawler = new WebCrawler.WebCrawler();
+            WebCrawler.Depth = reader.Depth;
+            return await WebCrawler.PerformCrawlingAsync(reader.RootUrls);
         }
     }
 }
