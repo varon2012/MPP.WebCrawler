@@ -90,7 +90,7 @@ namespace WebCrawler
         private Dictionary<string, CrawlResult> ParseWebsite(HtmlNodeCollection nodes)
         {
             if (nodes == null)
-                throw new ArgumentNullException("Can't find html-nodes on this website: ");
+                throw new ArgumentNullException(nameof(nodes));
 
             Dictionary<string, CrawlResult> resultUrls = new Dictionary<string, CrawlResult>();
             foreach (HtmlNode link in nodes)
