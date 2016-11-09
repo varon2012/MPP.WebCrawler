@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace WebCrawler
 {
-    interface ISimpleWebCrawler
+    public interface ISimpleWebCrawler
     {
+        Task<CrawlResult> PerformCrawlingAsync(string[] rootUrls);
     }
 }
