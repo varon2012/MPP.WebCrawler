@@ -33,6 +33,11 @@ namespace WebCrawler
             }
         }
 
+        public WebCrawler(int depth)
+        {
+            Depth = depth;
+        }
+
         public async Task<CrawlResult> PerformCrawlingAsync(string[] rootUrls)
         {
             return await GetCrawlResult(1, rootUrls);

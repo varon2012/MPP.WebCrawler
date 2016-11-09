@@ -27,8 +27,7 @@ namespace WebCrawlerTest.Model
 
         public async Task<CrawlResult> StartWebCrawler()
         {
-            WebCrawler = new WebCrawler.WebCrawler();
-            WebCrawler.Depth = reader.Depth;
+            WebCrawler = new WebCrawler.WebCrawler(reader.Depth);
             return await WebCrawler.PerformCrawlingAsync(reader.RootUrls);
         }
     }
