@@ -97,7 +97,7 @@ namespace WebCrawler
             {
                 string url = link.Attributes["href"].Value;
                 if (url.Contains("https://") || url.Contains("http://"))
-                     resultUrls[url] = null;
+                     resultUrls[url] = new CrawlResult(new Dictionary<string, CrawlResult>());
             }
 
             return resultUrls;
