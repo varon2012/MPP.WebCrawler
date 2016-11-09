@@ -9,7 +9,7 @@ namespace WebCrawler
 {
     public class WebCrawler : ISimpleWebCrawler, IDisposable
     {
-        private WebClient webClient = new WebClient();
+        private readonly WebClient webClient = new WebClient();
 
         private int depth = 0;
 
