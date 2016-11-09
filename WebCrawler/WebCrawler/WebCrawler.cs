@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 using HtmlAgilityPack;
@@ -35,16 +34,16 @@ namespace WebCrawler
 
         public async Task<CrawlResult> PerformCrawlingAsync(string[] rootUrls)
         {
-            return await GetCrawlResult(0, rootUrls);
+            return await GetCrawlResult(1, rootUrls);
         }
 
-        public async Task<CrawlResult> GetCrawlResult(int currentDepth, string[] rootUrls)
+        private async Task<CrawlResult> GetCrawlResult(int currentDepth, string[] rootUrls)
         {
             Dictionary<string, CrawlResult> crawlResult = new Dictionary<string, CrawlResult>();
             foreach (var url in rootUrls)
             {
                 try
-                {
+                {                    
                     crawlResult[url] = await DownloadWebsite(url);
                     if (currentDepth < Depth)
                         crawlResult[url] = await GetCrawlResult(currentDepth + 1, crawlResult[url].Urls.Keys.ToArray());
@@ -59,7 +58,7 @@ namespace WebCrawler
             return new CrawlResult(crawlResult);
         }
 
-        public async Task<CrawlResult> DownloadWebsite(string url)
+        private async Task<CrawlResult> DownloadWebsite(string url)
         {
             try
             {
@@ -73,7 +72,7 @@ namespace WebCrawler
 
         }
 
-        public CrawlResult GetUrlsFromWebsite(string htmlSource)
+        private CrawlResult GetUrlsFromWebsite(string htmlSource)
         {
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(htmlSource);
@@ -82,7 +81,7 @@ namespace WebCrawler
             return new CrawlResult(ParseWebsite(nodes));
         }
 
-        public Dictionary<string, CrawlResult> ParseWebsite(HtmlNodeCollection nodes)
+        private Dictionary<string, CrawlResult> ParseWebsite(HtmlNodeCollection nodes)
         {
             if (nodes == null)
                 throw new NullReferenceException("Can't find html-nodes on this website: ");

@@ -63,10 +63,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Model\ConfigInformation.cs" />
+    <Compile Include="Converter\CrawlResultConverter.cs" />
     <Compile Include="Model\IConfigReader.cs" />
     <Compile Include="Model\WebCrawlerModel.cs" />
     <Compile Include="Model\XmlConfigReader.cs" />
+    <Compile Include="ViewModel\BaseViewModel.cs" />
+    <Compile Include="ViewModel\CrawlingCommand.cs" />
     <Compile Include="ViewModel\WebCrawlerViewModel.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -106,6 +108,7 @@
       <Name>WebCrawler</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
