@@ -9,6 +9,7 @@ namespace WebCrawler
 {
     public class WebCrawler : ISimpleWebCrawler, IDisposable
     {
+        private ConsoleLogger consoleLogger = new ConsoleLogger();
         private readonly WebClient webClient = new WebClient();
 
         private int depth = 0;
@@ -50,7 +51,7 @@ namespace WebCrawler
                 }
                 catch(Exception e)
                 {
-                    System.Diagnostics.Debug.WriteLine($"{e.Message} {url}");
+                    consoleLogger.WriteLine(e.Message, url);
                 }
                 
             }
