@@ -32,19 +32,15 @@ namespace WebCrawlerTest.Model
             try
             {
                 string value = doc.Element("root").Element("depth").Value;
-                Depth = Int32.Parse(value);
+                ParseDepthValue(value);
             }
             catch (FileFormatException e)
             {
                 throw new FileFormatException($"Check the config file with path: {configPath}");
             }
-            catch (FormatException e)
-            {
-                throw new FormatException($"Check {nameof(Depth)} value in the config file.");
-            }
 
-            if (Depth < 0)
-                throw new ArgumentOutOfRangeException(nameof(Depth));
+            if (Depth <= 0)
+                throw new FormatException($"Check the value of {nameof(Depth)} in the config file");
         }
 
         private void GetRootUrls(XDocument doc)
@@ -63,6 +59,19 @@ namespace WebCrawlerTest.Model
             int i = 0;
             foreach (var node in nodes)
                 RootUrls[i++] = node.Value;
+        }
+
+        private void ParseDepthValue(string value)
+        {
+            int depth;
+            if (Int32.TryParse(value, out depth))
+            {
+                Depth = depth;
+            }
+            else
+            {
+                Depth = 0;
+            }
         }
     }
 }

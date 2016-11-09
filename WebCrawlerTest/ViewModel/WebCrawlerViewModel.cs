@@ -29,7 +29,6 @@ namespace WebCrawlerTest.ViewModel
             WebCrawlerModel webCrawlerModel = new WebCrawlerModel();
             if (ReadConfiguration(webCrawlerModel))
                 ExecuteCrawlingCommand(webCrawlerModel);
-            
         }
 
         private bool ReadConfiguration(WebCrawlerModel webCrawlerModel)
