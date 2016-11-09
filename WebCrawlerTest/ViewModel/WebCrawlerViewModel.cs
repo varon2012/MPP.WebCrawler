@@ -9,6 +9,7 @@ namespace WebCrawlerTest.ViewModel
     {
         public CrawlResult crawlResult;
         public CrawlingCommand CrawlingCommand { get; set; }
+        private bool isCorrectlyRead;
 
         public CrawlResult CrawlResult
         {
@@ -26,31 +27,48 @@ namespace WebCrawlerTest.ViewModel
         public WebCrawlerViewModel()
         {
             WebCrawlerModel webCrawlerModel = new WebCrawlerModel();
+            if (ReadConfiguration(webCrawlerModel))
+                ExecuteCrawlingCommand(webCrawlerModel);
+            
+        }
 
+        private bool ReadConfiguration(WebCrawlerModel webCrawlerModel)
+        {
             try
             {
                 webCrawlerModel.ReadConfigInformation();
+                return true;
             }
             catch (Exception e)
             {
-                MessageBox.Show($"{e.Message}. The program exits.");
-                Environment.Exit(0);
+                MessageBox.Show($"{e.Message}");
+                return false;
             }
 
-            CrawlingCommand = new CrawlingCommand(
-                async () =>
-                {
-                    if (CrawlingCommand.CanExecute(null))
-                    {
-                        CrawlingCommand.Disable();
+        }
 
-                        CrawlResult = await webCrawlerModel.StartWebCrawler();
-                        CrawlingCommand.Enable();
+        private void ExecuteCrawlingCommand(WebCrawlerModel webCrawlerModel)
+        {
+            try
+            {
+                CrawlingCommand = new CrawlingCommand(
+                        async () =>
+                        {
+                            if (CrawlingCommand.CanExecute(null))
+                            {
+                                CrawlingCommand.Disable();
 
-                    }
-                });
+                                CrawlResult = await webCrawlerModel.StartWebCrawler();
+                                CrawlingCommand.Enable();
 
-            webCrawlerModel.WebCrawler.Dispose();
+                            }
+                        });
+            }
+            finally
+            {
+                if (webCrawlerModel.WebCrawler != null)
+                    webCrawlerModel.WebCrawler.Dispose();
+            }
         }
     }
 }

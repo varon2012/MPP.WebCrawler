@@ -9,20 +9,13 @@ namespace WebCrawlerTest.Model
     {
         private string configPath = "config.xml";
         private XmlConfigReader reader;
+
         public WebCrawler.WebCrawler WebCrawler { get; set; }
 
         public void ReadConfigInformation()
         {
-            try
-            {
-                reader = new XmlConfigReader(configPath);
-                reader.ReadConfigInformation();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show($"{e.Message}. The program exits.");
-                Environment.Exit(0);
-            }
+            reader = new XmlConfigReader(configPath);
+            reader.ReadConfigInformation();
         }
 
         public async Task<CrawlResult> StartWebCrawler()
