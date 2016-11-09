@@ -16,9 +16,15 @@
     </Window.Resources>
 
     <Grid Height="500" VerticalAlignment="Top" Margin="0,0,0,-31" HorizontalAlignment="Left" Width="759">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200*"/>
+            <ColumnDefinition Width="559*"/>
+        </Grid.ColumnDefinitions>
         <TreeView x:Name="UrlTreeView" HorizontalAlignment="Left" Height="310" VerticalAlignment="Top" Width="680" Margin="35,60,0,0"
-                  ItemsSource="{Binding CrawlResult, Converter={StaticResource CrawlConverter}, Source={StaticResource ViewModel}}"/>
+                  ItemsSource="{Binding CrawlResult, Converter={StaticResource CrawlConverter}, Source={StaticResource ViewModel}}" Grid.ColumnSpan="2"/>
         <Button x:Name="button" Content="Start Crawling"  HorizontalAlignment="Left" Margin="35,20,0,0" VerticalAlignment="Top" Width="115" 
                 Command="{Binding CrawlingCommand, Source={StaticResource ViewModel}}"/>
+        <Button x:Name="ClickButton" Content="Click me!" HorizontalAlignment="Left" Margin="50,400,0,0" VerticalAlignment="Top" Width="75" Click="ClickButton_Click"/>
+        <Label x:Name="ClickingInfoLabel" Content="You have clicked 0 times" HorizontalAlignment="Left" Margin="145,397,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
     </Grid>
 </Window>

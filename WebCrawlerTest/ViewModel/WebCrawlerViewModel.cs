@@ -9,7 +9,6 @@ namespace WebCrawlerTest.ViewModel
     {
         public CrawlResult crawlResult;
         public CrawlingCommand CrawlingCommand { get; set; }
-        private bool isCorrectlyRead;
 
         public CrawlResult CrawlResult
         {

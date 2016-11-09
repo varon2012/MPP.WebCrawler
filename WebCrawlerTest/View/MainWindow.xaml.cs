@@ -20,9 +20,17 @@ namespace WebCrawlerTest
     /// </summary>
     public partial class MainWindow : Window
     {
+        private int clickCount = 0;
+
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void ClickButton_Click(object sender, RoutedEventArgs e)
+        {
+           ClickingInfoLabel.Content = $"You have clicked {++clickCount} times.";
+            
         }
     }
 }
