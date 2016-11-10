@@ -26,7 +26,7 @@
                 Command="{Binding CrawlingCommand, Source={StaticResource ViewModel}}"/>
         <Button x:Name="clickingButton" Content="Click me"  HorizontalAlignment="Left" Margin="35,400,0,0" VerticalAlignment="Top" Width="115" 
                 Command="{Binding ClickingCommand, Source={StaticResource ViewModel}}"/>
-        <Label x:Name="label" Content="{Binding ClickCount, Source={StaticResource ViewModel}}" Grid.Column="1" HorizontalAlignment="Left" Margin="81,411,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label" Content="{Binding ClickCount, Source={StaticResource ViewModel}}" HorizontalAlignment="Left" Margin="174,397,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>
