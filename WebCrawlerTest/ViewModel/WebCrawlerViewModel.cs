@@ -47,26 +47,18 @@ namespace WebCrawlerTest.ViewModel
 
         private void ExecuteCrawlingCommand(WebCrawlerModel webCrawlerModel)
         {
-            try
-            {
-                CrawlingCommand = new CrawlingCommand(
-                        async () =>
+            CrawlingCommand = new CrawlingCommand(
+                    async () =>
+                    {
+                        if (CrawlingCommand.CanExecute(null))
                         {
-                            if (CrawlingCommand.CanExecute(null))
-                            {
-                                CrawlingCommand.Disable();
+                            CrawlingCommand.Disable();
 
-                                CrawlResult = await webCrawlerModel.StartWebCrawler();
-                                CrawlingCommand.Enable();
+                            CrawlResult = await webCrawlerModel.StartWebCrawler();
+                            CrawlingCommand.Enable();
 
-                            }
-                        });
-            }
-            finally
-            {
-                if (webCrawlerModel.WebCrawler != null)
-                    webCrawlerModel.WebCrawler.Dispose();
-            }
+                        }
+                    });
         }
     }
 }

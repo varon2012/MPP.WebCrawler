@@ -10,8 +10,6 @@ namespace WebCrawlerTest.Model
         private string configPath = "config.xml";
         private XmlConfigReader reader;
 
-        public WebCrawler.WebCrawler WebCrawler { get; set; }
-
         public void ReadConfigInformation()
         {
             reader = new XmlConfigReader(configPath);
@@ -20,8 +18,10 @@ namespace WebCrawlerTest.Model
 
         public async Task<CrawlResult> StartWebCrawler()
         {
-            WebCrawler = new WebCrawler.WebCrawler(reader.Depth);
-            return await WebCrawler.PerformCrawlingAsync(reader.RootUrls);
+            using (WebCrawler.WebCrawler webCrawler = new WebCrawler.WebCrawler(reader.Depth))
+            {
+                return await webCrawler.PerformCrawlingAsync(reader.RootUrls);
+            }
         }
     }
 }
