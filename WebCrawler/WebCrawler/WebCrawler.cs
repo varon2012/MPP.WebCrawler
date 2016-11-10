@@ -11,6 +11,7 @@ namespace WebCrawler
     {
         private ConsoleLogger consoleLogger;
         private readonly WebClient webClient;
+        private bool isDisposed = false;
 
         private int depth = 0;
 
@@ -42,6 +43,8 @@ namespace WebCrawler
 
         public async Task<CrawlResult> PerformCrawlingAsync(string[] rootUrls)
         {
+            if (isDisposed) throw new ObjectDisposedException(nameof(WebCrawler));
+
             return await GetCrawlResult(1, rootUrls);
         }
 
@@ -107,8 +110,11 @@ namespace WebCrawler
 
         public void Dispose()
         {
-            if (webClient != null)
-                webClient.Dispose();
+            if (!isDisposed)
+                if (webClient != null)
+                    webClient.Dispose();
+
+            isDisposed = true;
         }
     }
 }
