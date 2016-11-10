@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using NLog;
 using WebCrawler.HtmlParser;
 using WebCrawler.WebCrawlerResults;
 
@@ -8,6 +10,7 @@ namespace WebCrawler.WebCrawler
     public class SimpleWebCrawler : ISimpleWebCrawler
     {
         private readonly IHtmlParser _htmlParser;
+        private readonly Logger _logger;
 
         private const int MaxDepth = 6;
         private const int MinDepth = 1;
@@ -20,6 +23,8 @@ namespace WebCrawler.WebCrawler
             _htmlParser = parser;
 
             Depth = IsDepthCorrect(depth) ? depth : MinDepth;
+
+            _logger = LogManager.GetCurrentClassLogger();
         }
 
         public async Task<CrawlResult> PerformCrawlingAsync(string[] rootUrls)
@@ -36,6 +41,8 @@ namespace WebCrawler.WebCrawler
                 crawlResult.Add(crawlItem);
             }
 
+            LogExceptions(_htmlParser.ParserErrors);
+
             return crawlResult;
         }
 
@@ -43,7 +50,7 @@ namespace WebCrawler.WebCrawler
         {
             var crawlItem = new CrawlItem(currentUrl);
 
-            if (currentDepth <= Depth)
+            if (currentDepth < Depth)
             {
                 var foundUrls = await _htmlParser.ParsePageForUrlAsync(currentUrl);
                 foreach (var foundUrl in foundUrls)
@@ -59,6 +66,19 @@ namespace WebCrawler.WebCrawler
         private bool IsDepthCorrect(int depth)
         {
             return depth >= MinDepth && depth <= MaxDepth;
+        }
+
+        private void LogExceptions(IEnumerable<Exception> exceptions)
+        {
+            foreach (var exception in exceptions)
+            {
+                LogException(exception);
+            }
+        }
+
+        private void LogException(Exception exception)
+        {
+            _logger.Warn(exception.Message);
         }
     }
 }

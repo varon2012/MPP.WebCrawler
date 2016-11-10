@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -10,6 +11,13 @@ namespace WebCrawler.HtmlParser
         private const string LinkTag = "a";
         private const string HrefAttribute = "href";
 
+        public ConcurrentBag<Exception> ParserErrors { get; private set; }
+
+        public HtmlParser()
+        {
+            ParserErrors = new ConcurrentBag<Exception>();
+        }
+
         public async Task<List<string>> ParsePageForUrlAsync(string url)
         {
             if (url == null) throw new ArgumentNullException(nameof(url));
@@ -18,13 +26,11 @@ namespace WebCrawler.HtmlParser
             try
             {
                 var page = await LoadPageAsync(url);
-                if (page == null) throw new ArgumentNullException(nameof(page));
-
                 urls = GetUrlsFromPage(page);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                
+                ParserErrors.Add(e);
             }
 
             return urls;
@@ -50,11 +56,15 @@ namespace WebCrawler.HtmlParser
             {
                 try
                 {
-                    urlsFromPage.Add(link.GetAttribute(HrefAttribute));
+                    var url = link.GetAttribute(HrefAttribute);
+                    if (url.StartsWith("http"))
+                    {
+                        urlsFromPage.Add(url);
+                    }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    
+                    ParserErrors.Add(e);
                 }
             }
 

@@ -60,14 +60,8 @@ namespace WebCrawlerTest.ViewModel
                     if (CrawlingCommand.CanExecute)
                     {
                         CrawlingCommand.CanExecute = false;
-                        try
-                        {
-                            WebCrawlerResult = await _webCrawlerModel.GetWebCrawlingResultAsync();
-                        }
-                        finally
-                        {
-                            CrawlingCommand.CanExecute = true;
-                        }
+                        WebCrawlerResult = await _webCrawlerModel.GetWebCrawlingResultAsync();
+                        CrawlingCommand.CanExecute = true;
                     }
                 }
             );
