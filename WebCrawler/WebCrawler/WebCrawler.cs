@@ -9,8 +9,8 @@ namespace WebCrawler
 {
     public class WebCrawler : ISimpleWebCrawler, IDisposable
     {
-        private ConsoleLogger consoleLogger = new ConsoleLogger();
-        private readonly WebClient webClient = new WebClient();
+        private ConsoleLogger consoleLogger;
+        private readonly WebClient webClient;
 
         private int depth = 0;
 
@@ -35,7 +35,9 @@ namespace WebCrawler
 
         public WebCrawler(int depth)
         {
-            Depth = depth;
+            consoleLogger = new ConsoleLogger();
+            webClient = new WebClient();
+            Depth = depth;            
         }
 
         public async Task<CrawlResult> PerformCrawlingAsync(string[] rootUrls)
