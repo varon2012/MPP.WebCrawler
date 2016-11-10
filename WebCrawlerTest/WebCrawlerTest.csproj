@@ -68,6 +68,7 @@
     <Compile Include="Model\WebCrawlerModel.cs" />
     <Compile Include="Model\XmlConfigReader.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
+    <Compile Include="ViewModel\ClickingCommand.cs" />
     <Compile Include="ViewModel\CrawlingCommand.cs" />
     <Compile Include="ViewModel\WebCrawlerViewModel.cs" />
     <Compile Include="View\MainWindow.xaml.cs">

@@ -29,7 +29,7 @@ namespace WebCrawlerTest
 
         private void ClickButton_Click(object sender, RoutedEventArgs e)
         {
-           ClickingInfoLabel.Content = $"You have clicked {++clickCount} times.";
+           //ClickingInfoLabel.Content = $"You have clicked {++clickCount} times.";
             
         }
     }

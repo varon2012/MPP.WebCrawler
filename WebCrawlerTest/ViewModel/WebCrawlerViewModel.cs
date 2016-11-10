@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using WebCrawler;
 using WebCrawlerTest.Model;
 
@@ -7,8 +9,7 @@ namespace WebCrawlerTest.ViewModel
 {
     internal class WebCrawlerViewModel : BaseViewModel
     {
-        public CrawlResult crawlResult;
-        public CrawlingCommand CrawlingCommand { get; set; }
+        private CrawlResult crawlResult;
 
         public CrawlResult CrawlResult
         {
@@ -22,6 +23,36 @@ namespace WebCrawlerTest.ViewModel
                 OnPropertyChanged(nameof(CrawlResult));
             }
         }
+
+        private ClickingCommand clickingCommand;
+
+        public ClickingCommand ClickingCommand
+        {
+            get
+            {
+                if (clickingCommand == null)
+                    clickingCommand = new ClickingCommand(() => { ClickCount++; });
+
+                return clickingCommand;
+            }
+        }
+
+        private int clickCount = 0;
+
+        public int ClickCount
+        {
+            get
+            {
+                return clickCount;
+            }
+            set
+            {
+                clickCount = value;
+                OnPropertyChanged(nameof(ClickCount));
+            }
+        }
+
+        public CrawlingCommand CrawlingCommand { get; private set; }
 
         public WebCrawlerViewModel()
         {
@@ -53,10 +84,8 @@ namespace WebCrawlerTest.ViewModel
                         if (CrawlingCommand.CanExecute(null))
                         {
                             CrawlingCommand.Disable();
-
                             CrawlResult = await webCrawlerModel.StartWebCrawler();
                             CrawlingCommand.Enable();
-
                         }
                     });
         }
