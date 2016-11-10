@@ -20,7 +20,7 @@ namespace WebCrawler
             {
                 return depth;
             }
-            set
+            private set
             {
                 if (value < 6)
                 {
