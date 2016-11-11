@@ -32,7 +32,7 @@ namespace WebCrawlerTest.Model
             try
             {
                 string value = doc.Element("root").Element("depth").Value;
-                GetDepthFromValue(value);
+                Depth = GetDepthFromValue(value);
             }
             catch (FileFormatException e)
             {
@@ -61,16 +61,16 @@ namespace WebCrawlerTest.Model
                 RootUrls[i++] = node.Value;
         }
 
-        private void GetDepthFromValue(string value)
+        private int GetDepthFromValue(string value)
         {
             int depth;
             if (Int32.TryParse(value, out depth))
             {
-                Depth = depth;
+                return depth;
             }
             else
             {
-                Depth = 0;
+                return 0;
             }
         }
     }
