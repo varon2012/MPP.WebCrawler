@@ -7,6 +7,8 @@ namespace WebCrawlerTest.ViewModel
 {
     internal class WebCrawlerViewModel : BaseViewModel
     {
+        private WebCrawlerModel webCrawlerModel;
+
         private CrawlResult crawlResult;
 
         public CrawlResult CrawlResult
@@ -50,13 +52,33 @@ namespace WebCrawlerTest.ViewModel
             }
         }
 
-        public CrawlingCommand CrawlingCommand { get; private set; }
+
+        public CrawlingCommand CrawlingCommand
+        {
+            get
+            {
+               return CreateCrawlingCommand(webCrawlerModel);
+            }
+        }
+        
+        private string exceptionMessage = string.Empty;
+
+        public string ExceptionMessage
+        {
+            get
+            {
+                return exceptionMessage;
+            }
+            set
+            {
+                exceptionMessage = value;
+                OnPropertyChanged(nameof(ExceptionMessage));
+            }
+        }
 
         public WebCrawlerViewModel()
         {
-            WebCrawlerModel webCrawlerModel = new WebCrawlerModel();
-            if (ReadConfiguration(webCrawlerModel))
-                ExecuteCrawlingCommand(webCrawlerModel);
+            webCrawlerModel = new WebCrawlerModel();
         }
 
         private bool ReadConfiguration(WebCrawlerModel webCrawlerModel)
@@ -64,28 +86,33 @@ namespace WebCrawlerTest.ViewModel
             try
             {
                 webCrawlerModel.ReadConfigInformation();
+                ExceptionMessage = string.Empty;
                 return true;
             }
             catch (Exception e)
             {
-                MessageBox.Show($"{e.Message}");
+                ExceptionMessage = e.Message;
                 return false;
             }
-
         }
 
-        private void ExecuteCrawlingCommand(WebCrawlerModel webCrawlerModel)
+        private CrawlingCommand CreateCrawlingCommand(WebCrawlerModel webCrawlerModel)
         {
-            CrawlingCommand = new CrawlingCommand(
+            System.Diagnostics.Debug.WriteLine(System.Threading.Thread.CurrentThread.ManagedThreadId);
+            CrawlingCommand crawlingCommand = new CrawlingCommand(
                     async () =>
                     {
-                        if (CrawlingCommand.CanExecute(null))
+                        if (ReadConfiguration(webCrawlerModel))
                         {
-                            CrawlingCommand.Disable();
-                            CrawlResult = await webCrawlerModel.StartWebCrawler();
-                            CrawlingCommand.Enable();
+                            if (CrawlingCommand.CanExecute(null))
+                            {
+                                CrawlingCommand.Disable();
+                                CrawlResult = await webCrawlerModel.StartWebCrawler();
+                                CrawlingCommand.Enable();
+                            }
                         }
                     });
+            return crawlingCommand;
         }
     }
 }
