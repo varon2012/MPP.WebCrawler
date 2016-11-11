@@ -15,7 +15,7 @@ namespace WebCrawlerTest.Model
 
         private readonly IConfigReader _configReader;
         private readonly ISimpleWebCrawler _webCrawler;
-        private readonly Logger _logger;
+        private static Logger _logger;
 
         public WebCrawlerModel()
         {

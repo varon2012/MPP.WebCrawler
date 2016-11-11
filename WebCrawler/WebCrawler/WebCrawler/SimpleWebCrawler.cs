@@ -10,7 +10,7 @@ namespace WebCrawler.WebCrawler
     public class SimpleWebCrawler : ISimpleWebCrawler
     {
         private readonly IHtmlParser _htmlParser;
-        private readonly Logger _logger;
+        private static Logger _logger;
 
         private const int MaxDepth = 6;
         private const int MinDepth = 1;

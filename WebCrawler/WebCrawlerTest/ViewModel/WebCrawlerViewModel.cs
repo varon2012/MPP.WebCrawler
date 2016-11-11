@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using WebCrawler.WebCrawlerResults;
 using WebCrawlerTest.Model;
 using WebCrawlerTest.ViewModel.Commands;
@@ -81,7 +80,7 @@ namespace WebCrawlerTest.ViewModel
                 });
         }
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected virtual void OnPropertyChanged(string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
