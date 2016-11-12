@@ -3,14 +3,21 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WebCrawlerUI"
+        xmlns:viewModel="clr-namespace:WebCrawlerUI.ViewModel"
+        xmlns:converters="clr-namespace:WebCrawlerUI.Converters"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        <Button x:Name="buttonStart" Content="Start" HorizontalAlignment="Left" Margin="54,275,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button x:Name="buttonCount" Content="Count" HorizontalAlignment="Left" Margin="325,275,0,0" VerticalAlignment="Top" Width="74" Height="22"/>
-        <TextBox x:Name="textBoxCount" HorizontalAlignment="Left" Height="22" Margin="430,275,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="61" Text="{Binding Path=Counter.Count, Mode=OneWay}" IsReadOnly="True"/>
-        <TreeView x:Name="treeViewUrls" HorizontalAlignment="Left" Height="260" VerticalAlignment="Top" Width="517" RenderTransformOrigin="-0.79,-0.615"/>
+        Title="Web crawler" Height="350" Width="525">
 
+    <Window.Resources>
+        <converters:CrawlResultsToTreeConverter x:Key="CrawlResultsToTreeConverter"/>
+    </Window.Resources>
+
+    <Grid>
+
+        <Button x:Name="buttonStart" Command="{Binding CrawlCommand}"   Content="Start" HorizontalAlignment="Left" Margin="54,275,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="buttonCount" Command="{Binding CountCommand}" Content="Count" HorizontalAlignment="Left" Margin="325,275,0,0" VerticalAlignment="Top" Width="74" Height="22"/>
+        <TextBox x:Name="textBoxCount" HorizontalAlignment="Left" Height="22" Margin="430,275,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="61" Text="{Binding Path=Counter.Count, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" />
+        <TreeView x:Name="treeViewUrls" HorizontalAlignment="Left" Height="260" VerticalAlignment="Top" Width="517" RenderTransformOrigin="-0.79,-0.615"  ItemsSource="{Binding CrawlResult, Converter={StaticResource CrawlResultsToTreeConverter}, UpdateSourceTrigger=PropertyChanged}"/>
+    
     </Grid>
 </Window>

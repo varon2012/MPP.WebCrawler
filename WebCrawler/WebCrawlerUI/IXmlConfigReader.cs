@@ -6,13 +6,8 @@ using System.Threading.Tasks;
 
 namespace WebCrawlerUI.Model
 {
-    public class Counter 
+    interface IXmlConfigReader
     {
-        public int Count { get; private set; } = 0;
-
-        public void IncrementCount()
-        {
-            Count++;
-        }
+        Config ReadConfig();
     }
 }

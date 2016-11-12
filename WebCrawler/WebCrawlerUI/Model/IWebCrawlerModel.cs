@@ -3,16 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebCrawler;
 
 namespace WebCrawlerUI.Model
 {
-    public class Counter 
+    public interface IWebCrawlerModel
     {
-        public int Count { get; private set; } = 0;
-
-        public void IncrementCount()
-        {
-            Count++;
-        }
+        Task<CrawlResult> CrawlAsync();
     }
 }

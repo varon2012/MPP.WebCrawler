@@ -12,8 +12,10 @@ namespace WebCrawler
     {
         private static readonly int MAX_DEPTH_LIMIT = 6;
         private static readonly int INITIAL_DEPTH = 0;
+        private static readonly int DEFAULT_DEPTH = 1;
 
         private readonly int _maxDepth;
+        private IWebCrawlerHtmlParser _webCrawlerHtmlParser;
 
         private string _log;
 
@@ -22,20 +24,25 @@ namespace WebCrawler
             get { return _log; }
         }
         
-        public SimpleWebCrawler(int depth)
+        public SimpleWebCrawler() : this(DEFAULT_DEPTH, new WebCrawlerHtmlParser()) { }
+
+        public SimpleWebCrawler(int depth) : this(depth, new WebCrawlerHtmlParser()) { }
+
+        public SimpleWebCrawler(int depth, IWebCrawlerHtmlParser webCrawlerHtmlParser)
         {
-            _maxDepth = (depth <= MAX_DEPTH_LIMIT) ? depth : MAX_DEPTH_LIMIT;
-            _log = string.Empty;
+             _maxDepth = (depth <= MAX_DEPTH_LIMIT) ? depth : MAX_DEPTH_LIMIT;
+             _log = string.Empty;
+            _webCrawlerHtmlParser = webCrawlerHtmlParser;
         }
 
-        public async Task<List<CrawlResult>> PerformCrawlingAsync(List<string> rootUrls)
+        public async Task<CrawlResult> PerformCrawlingAsync(List<string> rootUrls)
         {
-            List<CrawlResult> crawlResults = new List<CrawlResult>();
+            CrawlResult crawlResult = new CrawlResult();
             foreach (string rootUrl in rootUrls)
             {
-                crawlResults.Add(await CrawlAsync(rootUrl, INITIAL_DEPTH));
+                crawlResult.InnerCrawlResults.TryAdd(rootUrl, await CrawlAsync(rootUrl, INITIAL_DEPTH));
             }
-            return crawlResults;
+            return crawlResult;
         }
 
         private async Task<List<string>> GetHtmlPageInnerUrlsAsync(string url)
@@ -44,7 +51,8 @@ namespace WebCrawler
             {
                 HttpClient httpClient = new HttpClient();
                 string htmlPage = await httpClient.GetStringAsync(url);
-                return HtmlParser.GetInnerUrls(htmlPage, url);
+                WebCrawlerHtmlParser wchp = new WebCrawlerHtmlParser();
+                return wchp.GetInnerUrls(htmlPage, url);
             }
             catch(Exception e)
             {

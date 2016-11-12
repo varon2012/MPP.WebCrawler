@@ -63,8 +63,19 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Model\Config.cs" />
+    <Compile Include="Model\IWebCrawlerModel.cs" />
+    <Compile Include="IXmlConfigReader.cs" />
+    <Compile Include="Model\WebCrawlerModel.cs" />
+    <Compile Include="Model\XmlConfigReader.cs" />
     <Compile Include="Model\Counter.cs" />
+    <Compile Include="ViewModel\AsyncCommand.cs" />
+    <Compile Include="ViewModel\AsyncCommandBase.cs" />
+    <Compile Include="ViewModel\Command.cs" />
+    <Compile Include="Converters\CrawlResultsToTreeConverter.cs" />
+    <Compile Include="ViewModel\IAsyncCommand.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\ObservableObject.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -97,7 +108,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\WebCrawler\WebCrawler.csproj">
+      <Project>{fc0ccbe3-4b82-4f5b-96fa-cb141c790f0f}</Project>
+      <Name>WebCrawler</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

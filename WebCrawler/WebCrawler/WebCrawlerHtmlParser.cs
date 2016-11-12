@@ -7,9 +7,9 @@ using HtmlAgilityPack;
 
 namespace WebCrawler
 {
-    public static class HtmlParser
+    public class WebCrawlerHtmlParser : IWebCrawlerHtmlParser
     {       
-        public static List<string> GetInnerUrls(string htmlPage, string basePath)
+        public List<string> GetInnerUrls(string htmlPage, string basePath)
         {
             HtmlDocument htmlDocument = new HtmlDocument();
             htmlDocument.LoadHtml(htmlPage);

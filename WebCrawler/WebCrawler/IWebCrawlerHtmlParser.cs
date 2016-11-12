@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace WebCrawler
 {
-    public interface ISimpleWebCrawler
+    public interface IWebCrawlerHtmlParser
     {
-        Task<CrawlResult> PerformCrawlingAsync(List<string> rootUrls);
+        List<string> GetInnerUrls(string htmlPage, string basePath);
     }
 }
