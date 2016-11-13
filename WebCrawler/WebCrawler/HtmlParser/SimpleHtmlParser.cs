@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -11,11 +10,11 @@ namespace WebCrawler.HtmlParser
         private const string LinkTag = "a";
         private const string HrefAttribute = "href";
 
-        public ConcurrentBag<Exception> ParserErrors { get; private set; }
+        public List<Exception> ParserErrors { get; private set; }
 
         public HtmlParser()
         {
-            ParserErrors = new ConcurrentBag<Exception>();
+            ParserErrors = new List<Exception>();
         }
 
         public async Task<List<string>> ParsePageForUrlAsync(string url)
