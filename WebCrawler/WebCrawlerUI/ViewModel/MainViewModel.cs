@@ -31,7 +31,7 @@ namespace WebCrawlerUI.ViewModel
             set
             {
                 _crawlResult = value;
-                OnPropertyChanged("CrawlResult");
+                OnPropertyChanged(nameof(CrawlResult));
             }
         } 
 
@@ -63,12 +63,12 @@ namespace WebCrawlerUI.ViewModel
                 MessageBox.Show("Configuration file is not found.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return null;    
             }
-            catch(InvalidOperationException)
+            catch (InvalidOperationException)
             {
                 MessageBox.Show("Configuration file is not valid.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return null;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 MessageBox.Show("An error ocurred while crawling.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return null;

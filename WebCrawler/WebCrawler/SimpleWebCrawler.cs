@@ -10,9 +10,9 @@ namespace WebCrawler
 {
     public class SimpleWebCrawler : ISimpleWebCrawler
     {
-        private static readonly int MAX_DEPTH_LIMIT = 6;
-        private static readonly int INITIAL_DEPTH = 0;
-        private static readonly int DEFAULT_DEPTH = 1;
+        private const int MaxDepthLimit = 6;
+        private const int InitialDepth = 0;
+        private const int DefaultDepth = 1;
 
         private readonly int _maxDepth;
         private IWebCrawlerHtmlParser _webCrawlerHtmlParser;
@@ -24,13 +24,13 @@ namespace WebCrawler
             get { return _log; }
         }
         
-        public SimpleWebCrawler() : this(DEFAULT_DEPTH, new WebCrawlerHtmlParser()) { }
+        public SimpleWebCrawler() : this(DefaultDepth, new WebCrawlerHtmlParser()) { }
 
         public SimpleWebCrawler(int depth) : this(depth, new WebCrawlerHtmlParser()) { }
 
         public SimpleWebCrawler(int depth, IWebCrawlerHtmlParser webCrawlerHtmlParser)
         {
-             _maxDepth = (depth <= MAX_DEPTH_LIMIT) ? depth : MAX_DEPTH_LIMIT;
+             _maxDepth = (depth <= MaxDepthLimit) ? depth : MaxDepthLimit;
              _log = string.Empty;
             _webCrawlerHtmlParser = webCrawlerHtmlParser;
         }
@@ -40,27 +40,37 @@ namespace WebCrawler
             CrawlResult crawlResult = new CrawlResult();
             foreach (string rootUrl in rootUrls)
             {
-                crawlResult.InnerCrawlResults.TryAdd(rootUrl, await CrawlAsync(rootUrl, INITIAL_DEPTH));
+                if (!crawlResult.InnerCrawlResults.ContainsKey(rootUrl))
+                {
+                    crawlResult.InnerCrawlResults.Add(rootUrl, await CrawlAsync(rootUrl, InitialDepth));
+                }
             }
             return crawlResult;
         }
 
+
         private async Task<List<string>> GetHtmlPageInnerUrlsAsync(string url)
         {
+            HttpClient httpClient = new HttpClient();
             try
             {
-                HttpClient httpClient = new HttpClient();
                 string htmlPage = await httpClient.GetStringAsync(url);
                 WebCrawlerHtmlParser wchp = new WebCrawlerHtmlParser();
                 return wchp.GetInnerUrls(htmlPage, url);
             }
             catch(Exception e)
             {
-                Volatile.Write(ref _log, Volatile.Read(ref _log) +  e.Message + "\r\n");
+                _log += e.Message + "\r\n"; 
                 return null;
             }
+            finally
+            {
+                if (httpClient != null)
+                {
+                    httpClient.Dispose();
+                }
+            }
         }
-
 
         private async Task<CrawlResult> CrawlAsync(string url, int currentDepth)
         {
@@ -73,14 +83,20 @@ namespace WebCrawler
                 {
                     foreach (string innerUrl in innerUrls)
                     {
-                        crawlResult.InnerCrawlResults.TryAdd(innerUrl, await CrawlAsync(innerUrl, currentDepth));
+                        if (!crawlResult.InnerCrawlResults.ContainsKey(innerUrl))
+                        {
+                            crawlResult.InnerCrawlResults.Add(innerUrl, await CrawlAsync(innerUrl, currentDepth));
+                        }
                     }
                 }
                 else
                 {
                     foreach (string innerUrl in innerUrls)
                     {
-                        crawlResult.InnerCrawlResults.TryAdd(innerUrl, null);
+                        if (!crawlResult.InnerCrawlResults.ContainsKey(innerUrl))
+                        {
+                            crawlResult.InnerCrawlResults.Add(innerUrl, null);
+                        }
                     }
                 }
             }
