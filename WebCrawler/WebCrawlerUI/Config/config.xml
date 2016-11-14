@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root xmlns="http://bsuir.by/webcrawler">
+	<depth>2</depth>
+	<rootResources>
+		<resource>http://ozdic.com/</resource>
+		<resource>https://www.google.by/?gws_rd=ssl</resource>
+	</rootResources>
+</root>
