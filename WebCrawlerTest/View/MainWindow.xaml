@@ -1,0 +1,33 @@
+﻿<Window x:Class="WebCrawlerTest.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WebCrawlerTest"
+        xmlns:viewModel="clr-namespace:WebCrawlerTest.ViewModel"
+        xmlns:converter="clr-namespace:WebCrawlerTest.Converter"
+        
+        mc:Ignorable="d"
+        Title="MainWindow" Height="500" Width="769">
+
+    <Window.Resources>
+        <viewModel:WebCrawlerViewModel x:Key="ViewModel"/>
+        <converter:CrawlResultConverter x:Key="CrawlConverter"/>
+    </Window.Resources>
+
+    <Grid Height="500" VerticalAlignment="Top" Margin="0,0,0,-31" HorizontalAlignment="Left" Width="759">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200*"/>
+            <ColumnDefinition Width="559*"/>
+        </Grid.ColumnDefinitions>
+        <TreeView x:Name="UrlTreeView" HorizontalAlignment="Left" Height="310" VerticalAlignment="Top" Width="680" Margin="35,60,0,0"
+                  ItemsSource="{Binding CrawlResult, Converter={StaticResource CrawlConverter}, Source={StaticResource ViewModel}}" Grid.ColumnSpan="2"/>
+        <Button x:Name="button" Content="Start Crawling"  HorizontalAlignment="Left" Margin="35,20,0,0" VerticalAlignment="Top" Width="115" 
+                Command="{Binding CrawlingCommand, Source={StaticResource ViewModel}}"/>
+        <Button x:Name="clickingButton" Content="Click me"  HorizontalAlignment="Left" Margin="35,400,0,0" VerticalAlignment="Top" Width="115" 
+                Command="{Binding ClickingCommand, Source={StaticResource ViewModel}}"/>
+        <Label x:Name="label" Content="{Binding ClickCount, Source={StaticResource ViewModel}}" HorizontalAlignment="Left" Margin="174,397,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="labelException" Content="{Binding ExceptionMessage, Source={StaticResource ViewModel}}" Grid.Column="1" HorizontalAlignment="Left" Margin="44,400,0,0" VerticalAlignment="Top"/>
+
+    </Grid>
+</Window>
