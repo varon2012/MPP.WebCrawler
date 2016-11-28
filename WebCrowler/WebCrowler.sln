@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebCrowler", "WebCrowler\WebCrowler.csproj", "{3FCC62B5-E145-44BB-B70E-C657935B618E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{6CBB6E3E-6BCC-47F2-8866-407D9B1FE27C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3FCC62B5-E145-44BB-B70E-C657935B618E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FCC62B5-E145-44BB-B70E-C657935B618E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FCC62B5-E145-44BB-B70E-C657935B618E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FCC62B5-E145-44BB-B70E-C657935B618E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CBB6E3E-6BCC-47F2-8866-407D9B1FE27C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CBB6E3E-6BCC-47F2-8866-407D9B1FE27C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CBB6E3E-6BCC-47F2-8866-407D9B1FE27C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CBB6E3E-6BCC-47F2-8866-407D9B1FE27C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,76 @@
+﻿<Window x:Class="WebCrowler.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModel="clr-namespace:WebCrowler.ViewModel"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Window.DataContext>
+        <viewModel:MainWindowViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <DataTemplate x:Key="level6">
+            <TextBlock Text="{Binding Reference}"/>
+        </DataTemplate>
+        <HierarchicalDataTemplate x:Key="level5"
+                                  ItemsSource="{Binding ReferenceList}"
+                                  ItemTemplate="{StaticResource level6}">
+            <TextBlock Text="{Binding Reference}"/>
+        </HierarchicalDataTemplate>
+            <HierarchicalDataTemplate x:Key="level4"
+                                      ItemsSource="{Binding ReferenceList}"
+                                      ItemTemplate="{StaticResource level5}">
+                <TextBlock Text="{Binding Reference}"></TextBlock>
+            </HierarchicalDataTemplate>
+                <HierarchicalDataTemplate x:Key="level3"
+                                              ItemsSource="{Binding ReferenceList}"
+                                              ItemTemplate="{StaticResource level4}">
+                    <TextBlock Text="{Binding Reference}"></TextBlock>
+                </HierarchicalDataTemplate>
+                    <HierarchicalDataTemplate x:Key="level2"
+                                                  ItemsSource="{Binding ReferenceList}"
+                                                  ItemTemplate="{StaticResource level3}">
+                        <TextBlock Text="{Binding Reference}"></TextBlock>
+                    </HierarchicalDataTemplate>
+                        <HierarchicalDataTemplate x:Key="level1"
+                                                                  ItemsSource="{Binding ReferenceList}"
+                                                                  ItemTemplate="{StaticResource level2}">
+                            <TextBlock Text="{Binding Reference}"></TextBlock>
+                        </HierarchicalDataTemplate>
+                            <HierarchicalDataTemplate x:Key="root"
+                                                                                      ItemsSource="{Binding ReferenceList}"
+                                                                                      ItemTemplate="{StaticResource level1}">
+                                <TextBlock Text="{Binding Reference}"></TextBlock>
+                            </HierarchicalDataTemplate>
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="8*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <TreeView Grid.Column="0"
+                  Grid.Row="0"
+                  Grid.RowSpan="3"
+                  ItemTemplate="{StaticResource root}"
+                  ItemsSource="{Binding ReferenceList}"/>
+        <Button Grid.Column="1"
+                Grid.Row="0"
+                Content="Go!!!!!!!!"
+                Command="{Binding StartCrowlingCommand}"/>
+        <Button Grid.Column="1"
+                Grid.Row="1"
+                Content="Click Me!!"
+                Command="{Binding ClickCommand}"/>
+        <Label Content="{Binding ClickCounter}"
+               Grid.Column="1"
+               Grid.Row="2"/>
+    </Grid>
+</Window>
